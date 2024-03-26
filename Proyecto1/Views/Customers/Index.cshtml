@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebIbero.Models.Customers>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="wrapper">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NAME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ADDRESS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WEBSITE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CREDIT_LIMIT)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ADDRESS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WEBSITE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREDIT_LIMIT)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CUSTOMER_ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CUSTOMER_ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CUSTOMER_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</<div>
