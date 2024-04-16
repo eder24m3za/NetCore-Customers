@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebIbero.Models;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using Proyecto1.Models;
 
 namespace Proyecto1.Data
 {
@@ -13,6 +14,12 @@ namespace Proyecto1.Data
         public DbSet<Customers> Customers { get; set; }
         public DbSet<Product_Categories> Product_categories { get; set; }
         public DbSet<Products> Products { get; set; }
+
+        public DbSet<Regions> Regions { get; set; }
+
+        public DbSet<Countries> Countries { get; set; }
+
+        public DbSet<Contacts> Contacts { get; set; }
 
         [DbFunction(Schema = "dbo")]
         public static int fn_PorductCategory_count(int pCategoryId)

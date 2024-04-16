@@ -1,0 +1,63 @@
+﻿@model Proyecto1.Models.Contacts
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Contact</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CONTACT_ID" />
+            <div class="form-group">
+                <label asp-for="FIRST_NAME" class="control-label"></label>
+                <input asp-for="FIRST_NAME" class="form-control" value="@Model.FIRST_NAME" />
+                <span asp-validation-for="FIRST_NAME" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LAST_NAME" class="control-label"></label>
+                <input asp-for="LAST_NAME" class="form-control" value="@Model.LAST_NAME" />
+                <span asp-validation-for="LAST_NAME" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EMAIL" class="control-label"></label>
+                <input asp-for="EMAIL" class="form-control" value="@Model.EMAIL" />
+                <span asp-validation-for="EMAIL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PHONE" class="control-label"></label>
+                <input asp-for="PHONE" class="form-control" value="@Model.PHONE" />
+                <span asp-validation-for="PHONE" class="text-danger"></span>
+            </div>
+          <div class="form-group">
+                <label for="customer_id">Selecciona un Cliente:</label>
+                <select asp-for="CUSTOMER_ID" class="form-control" id="customer_id" name="customer_id">
+                    <option value="">Seleccione un cliente</option>
+                    @foreach (var customer in (SelectList)ViewData["customer_id"])
+                    {
+                        var isSelected = Model.Customers != null && Model.Customers.CUSTOMER_ID == int.Parse(customer.Value);
+                        <option value="@customer.Value" selected="@isSelected">@customer.Text</option>
+                    }
+                </select>
+            </div>
+            <!-- Campo hidden para el id -->
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

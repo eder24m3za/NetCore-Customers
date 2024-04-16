@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto1.Data;
-using WebIbero.Models;
+using Proyecto1.Models;
 
 namespace Proyecto1.Controllers
 {

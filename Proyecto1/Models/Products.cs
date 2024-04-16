@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebIbero.Models
+namespace Proyecto1.Models
 {
     public class Products
     {

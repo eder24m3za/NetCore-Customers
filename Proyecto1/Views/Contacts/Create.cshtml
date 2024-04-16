@@ -1,0 +1,63 @@
+﻿@model Proyecto1.Models.Contacts
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="wrapper">
+    <h1>Create</h1>
+
+    <h4>Contact</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FIRST_NAME" class="control-label"></label>
+                    <input asp-for="FIRST_NAME" class="form-control" />
+                    <span asp-validation-for="FIRST_NAME" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LAST_NAME" class="control-label"></label>
+                    <input asp-for="LAST_NAME" class="form-control" />
+                    <span asp-validation-for="LAST_NAME" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EMAIL" class="control-label"></label>
+                    <input asp-for="EMAIL" class="form-control" />
+                    <span asp-validation-for="EMAIL" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PHONE" class="control-label"></label>
+                    <input asp-for="PHONE" class="form-control" />
+                    <span asp-validation-for="PHONE" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="customer_id">Selecciona un Cliente:</label>
+                    <select class="form-control" id="customer_id" name="customer_id">
+                        @foreach (var customerOption in (IEnumerable<SelectListItem>)ViewData["customer_id"])
+                        {
+                            <option value="@customerOption.Value">@customerOption.Text</option>
+                        }
+                    </select>
+                </div>
+                <!-- Campo hidden para el id -->
+                <input type="hidden" name="id" value="add" />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
