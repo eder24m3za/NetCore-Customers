@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Proyecto1.Models.Regions>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="wrapper">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.REGION_NAME)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.REGION_NAME)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.REGION_ID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.REGION_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</<div>

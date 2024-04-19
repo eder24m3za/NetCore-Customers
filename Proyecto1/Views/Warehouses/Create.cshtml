@@ -1,0 +1,48 @@
+﻿@model Proyecto1.Models.Warehouses
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="wrapper">
+    <h1>Create</h1>
+
+    <h4>Warehouses</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="WAREHOUSE_NAME" class="control-label"></label>
+                    <input asp-for="WAREHOUSE_NAME" class="form-control" />
+                    <span asp-validation-for="WAREHOUSE_NAME" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="location_id">Selecciona una locacion:</label>
+                    <select class="form-control" id="location_id" name="location_id">
+                        @foreach (var locationOption in (IEnumerable<SelectListItem>)ViewData["location_id"])
+                        {
+                        <option value="@locationOption.Value">@locationOption.Text</option>
+                        }
+                    </select>
+                </div>
+                <!-- Campo hidden para el id -->
+                <input type="hidden" name="id" value="add" />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

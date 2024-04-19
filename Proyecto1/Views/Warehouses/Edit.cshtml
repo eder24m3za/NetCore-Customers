@@ -1,0 +1,49 @@
+﻿@model Proyecto1.Models.Warehouses
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Warehouse</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WAREHOUSE_ID" />
+            <div class="form-group">
+                <label asp-for="WAREHOUSE_NAME" class="control-label"></label>
+                <input asp-for="WAREHOUSE_NAME" class="form-control" value="@Model.WAREHOUSE_NAME" />
+                <span asp-validation-for="WAREHOUSE_NAME" class="text-danger"></span>
+            </div>
+
+          <div class="form-group">
+                <label for="location_id">Selecciona una Location:</label>
+                <select asp-for="LOCATION_ID" class="form-control" id="location_id" name="location_id">
+                    <option value="">Seleccione un cliente</option>
+                    @foreach (var location in (SelectList)ViewData["location_id"])
+                    {
+                        var isSelected = Model.Locations != null && Model.Locations.LOCATION_ID == int.Parse(location.Value);
+                        <option value="@location.Value" selected="@isSelected">@location.Text</option>
+                    }
+                </select>
+            </div>
+            <!-- Campo hidden para el id -->
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
