@@ -16,13 +16,14 @@ namespace Proyecto1.Controllers
             _context = context;
         }
 
-        // GET: CountriesController
+        // GET: ContactsController/index
         public ActionResult Index()
         {
             var contactsWithCustomers = _context.Contacts.Include(c => c.Customers).ToList();
             return View(contactsWithCustomers);
         }
 
+        // GET: ContactsController/edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -42,14 +43,7 @@ namespace Proyecto1.Controllers
             return View(contact);
         }
 
-
-
-        public ActionResult Index2()
-        {
-            var datos = _context.Contacts.Include(c => c.Customers).Where(c => c.Customers != null).ToList();
-            return View(datos);
-        }
-
+        // GET: ContactsController/details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,13 +63,35 @@ namespace Proyecto1.Controllers
             return View(contact);
         }
 
-
-        // GET: CountriesController/Create
+        // GET: ContactsController/Create
         public ActionResult Create()
         {
             ViewData["customer_id"] = new SelectList(_context.Customers, "CUSTOMER_ID", "NAME");
             return View();
         }
+
+        // GET:  ContantsControllers/delete
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            Console.WriteLine("Mal");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contact = await _context.Contacts
+                .Include(c => c.Customers)
+                .FirstOrDefaultAsync(m => m.CONTACT_ID == id);
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            return View(contact);
+        }
+
 
         // POST: CountriesController/Create
         [HttpPost]
@@ -132,10 +148,8 @@ namespace Proyecto1.Controllers
             return View(contacts);
         }
 
-
-
-        [HttpDelete]
-        public ActionResult Delete(string id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             var reg = _context.Contacts.Find(id);
             if (reg == null)
@@ -144,10 +158,9 @@ namespace Proyecto1.Controllers
             }
             else
             {
-
                 _context.Contacts.Remove(reg);
                 _context.SaveChanges();
-                return Json(new { success = true, message = "Pais eliminada exitosamente." });
+                return Json(new { success = true, message = "Contacto eliminado exitosamente." });
             }
         }
 
