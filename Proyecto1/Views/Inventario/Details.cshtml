@@ -1,0 +1,36 @@
+﻿@model Proyecto1.Models.Inventario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Customers</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Producto
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.product.product_name)
+        </dd>
+        <dt class="col-sm-2">
+            Almacen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.warehouse.warehouse_name)
+        </dd>
+        <dt class="col-sm-2">
+            Cantidad
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.quantity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.warehouse_id" asp-route-id2="@Model.product_id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

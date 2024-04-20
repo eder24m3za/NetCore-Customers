@@ -1,0 +1,48 @@
+﻿@model Proyecto1.Models.Productos
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Customers</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.product_name)
+        </dd>
+        <dt class="col-sm-2">
+            Descripcion
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.description)
+        </dd>
+        <dt class="col-sm-2">
+            presio de lista
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.list_price)
+        </dd>
+        <dt class="col-sm-2">
+            Precio estandar
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.standard_cost)
+        </dd>
+        <dt class="col-sm-2">
+            Categoria
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.product_categories.category_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.category_id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

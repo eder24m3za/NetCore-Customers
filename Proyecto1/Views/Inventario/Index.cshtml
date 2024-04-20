@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Proyecto1.Models.Inventario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="wrapper">
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                   Producto
+                </th>
+                <th>
+                    Almacen
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.product.product_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.warehouse.warehouse_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.warehouse_id" asp-route-id2="@item.product_id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.warehouse_id" asp-route-id2="@item.product_id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.warehouse_id" asp-route-id2="@item.product_id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </<div>

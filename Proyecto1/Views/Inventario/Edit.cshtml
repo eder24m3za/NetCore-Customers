@@ -1,0 +1,68 @@
+﻿@model Proyecto1.Models.Inventario
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="wrapper">
+    <h1>Create</h1>
+
+    <h4>Customers</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" name="id" asp-for="warehouse_id" />
+                <input type="hidden" name="id2" asp-for="product_id" />
+
+                <div class="form-group">
+                    <label asp-for="quantity" class="control-label">Precio Estandar</label>
+                    <input type="number" step="0.01" min="0" max="9999.99" asp-for="quantity" class="form-control" />
+                    <span asp-validation-for="quantity" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" asp-for="product_id">Categoria</label>
+                    <select class="form-select" id="inputGroupSelect02" asp-for="product_id">
+                        @if (ViewBag.Productos != null)
+                        {
+                            foreach (var prod in ViewBag.Productos)
+                            {
+                                <option value="@prod.product_id" selected="@(prod.product_id == ViewBag.prod)">@prod.product_name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="product_id" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" asp-for="warehouse_id">Categoria</label>
+                    <select class="form-select" id="inputGroupSelect02" asp-for="warehouse_id">
+                        @if (ViewBag.Almacenes != null)
+                        {
+                            foreach (var prod in ViewBag.Almacenes)
+                            {
+                                <option value="@prod.warehouse_id" selected="@(prod.warehouse_id == ViewBag.alm)">@prod.warehouse_name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="warehouse_id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Actualizar" class="btn btn-primary" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.product_id)</span>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.warehouse_id)</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
