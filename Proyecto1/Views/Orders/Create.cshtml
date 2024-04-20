@@ -1,0 +1,60 @@
+﻿@model Proyecto1.Models.Orders
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="wrapper">
+    <h1>Create</h1>
+
+    <h4>Order</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="STATUS" class="control-label"></label>
+                    <input asp-for="STATUS" class="form-control" />
+                    <span asp-validation-for="STATUS" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ORDER_DATE" class="control-label"></label>
+                    <input asp-for="ORDER_DATE" class="form-control" />
+                    <span asp-validation-for="ORDER_DATE" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="employee_id">Select an employee:</label>
+                    <select class="form-control" id="employee_id" name="employee_id">
+                        @foreach (var employeeOption in (IEnumerable<SelectListItem>)ViewData["employee_id"])
+                        {
+                            <option value="@employeeOption.Value">@employeeOption.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="customer_id">Select a customer:</label>
+                    <select class="form-control" id="customer_id" name="customer_id">
+                        @foreach (var customerOption in (IEnumerable<SelectListItem>)ViewData["customer_id"])
+                        {
+                            <option value="@customerOption.Value">@customerOption.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

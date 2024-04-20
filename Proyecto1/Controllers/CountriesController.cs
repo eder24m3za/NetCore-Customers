@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto1.Data;
 using Proyecto1.Models;
+using System.Diagnostics.Metrics;
 
 namespace Proyecto1.Controllers
 {
@@ -16,103 +17,164 @@ namespace Proyecto1.Controllers
             _context = context;
         }
 
-        // GET: CountriesController
+        // GET: Controller/index
         public ActionResult Index()
         {
-            ViewData["Region_ID"] = new SelectList(_context.Regions, "REGION_ID", "REGION_NAME");
-            return View();
+            var data = _context.Countries.ToList();
+
+            return View(data);
         }
 
-        public ActionResult Index2()
+        // GET: Controller/details
+        public async Task<IActionResult> Details(string? id)
         {
-            var datos = _context.Countries.Include(c => c.Regions).ToList();
-            return View(datos);
-        }
-
-        // GET: CountriesController/Create
-        public ActionResult Create()
-        {
-            ViewData["Region_ID"] = new SelectList(_context.Regions, "REGION_ID", "REGION_NAME");
-            return View();
-        }
-
-        //public async Task<IActionResult> Create(string? id, string? modo) 
-        //{
-        //    string? vModo = modo; 
-        //    Countries? Reg = new Countries();
-
-        //    if (id == "" || id == "0")
-        //    {
-        //        return View("Index", Reg);
-
-        //    }
-        //    else
-        //    {
-        //        Reg = await _context.countries.FindAsync(id);
-        //        Countries countrymodel = new Countries();
-        //        countrymodel.COUNTRY_NAME = Reg.COUNTRY_NAME;
-        //        countrymodel.COUNTRY_ID = Reg.COUNTRY_ID;
-        //        countrymodel.REGION_ID = Reg.REGION_ID;
-        //        return View("Index", countrymodel);
-        //    }
-
-
-
-        //}
-
-        // POST: CountriesController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Countries country, string id)
-        {
-
-            if (ModelState.IsValid)
+            if (id == "")
             {
-                if (id == "add")
-                {
+                return NotFound();
+            }
 
-                    await _context.Countries.AddAsync(country);
-                    await _context.SaveChangesAsync();
+            var country = await _context.Countries
+                .Include(c => c.Regions)
+                .FirstOrDefaultAsync(m => m.COUNTRY_ID == id);
 
-                    TempData["mensaje"] = "El Pais se guardo correctamente";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    _context.Countries.Update(country);
-                    await _context.SaveChangesAsync();
-
-                    TempData["mensaje"] = "Cambios guardados correctamente";
-                    return RedirectToAction(nameof(Index), new { id = "" });
-                }
+            if (country == null)
+            {
+                return NotFound();
             }
 
             return View(country);
         }
 
-        [HttpDelete]
-        public ActionResult Delete(string id)
+        // GET: Controller/Create
+        public ActionResult Create()
         {
-            var reg = _context.Countries.Find(id);
+            ViewData["region_id"] = new SelectList(_context.Regions, "REGION_ID", "REGION_NAME");
+            return View();
+        }
+
+        // GET: Controller/edit
+        public async Task<IActionResult> Edit(string? id)
+        {
+            if (id == "")
+            {
+                return NotFound();
+            }
+
+            var country = await _context.Countries.FindAsync(id);
+            if (country == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["region_id"] = new SelectList(_context.Regions, "REGION_ID", "REGION_NAME");
+            return View(country);
+        }
+
+
+        // GET:  Controllers/delete
+        [HttpGet]
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (id == "")
+            {
+                return NotFound();
+            }
+
+            var country = await _context.Countries
+                .Include(c => c.Regions)
+                .FirstOrDefaultAsync(m => m.COUNTRY_ID == id);
+
+            if (country == null)
+            {
+                return NotFound();
+            }
+
+            return View(country);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Countries country, int region_id)
+        {
+            if (ModelState.IsValid)
+            {
+                // Verificar si el ID del país ya existe
+                if (_context.Countries.Any(c => c.COUNTRY_ID == country.COUNTRY_ID))
+                {
+                    ModelState.AddModelError("COUNTRY_ID", "El ID del país ya está en uso.");
+                    return View(country);
+                }
+
+                // Asignar el region_id al país
+                country.REGION_ID = region_id;
+
+                // Agregar el país al contexto y guardarlo
+                await _context.Countries.AddAsync(country);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(country);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, Countries country)
+        {
+            if (id != country.COUNTRY_ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(country);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CountryExists(country.COUNTRY_ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(country);
+        }
+
+        [HttpPost]
+        public ActionResult Deletes(string id)
+        {
+            Console.WriteLine("uwu");
+            Console.WriteLine(id);
+            string idString = id.ToString();
+            Console.WriteLine(idString);
+            var reg = _context.Countries.Find(idString);
             if (reg == null)
             {
-                return Json(new { success = false, message = "Algo salió mal... inténtalo de nuevo." });
+                return RedirectToAction("Index");
             }
             else
             {
-
                 _context.Countries.Remove(reg);
                 _context.SaveChanges();
-                return Json(new { success = true, message = "Pais eliminada exitosamente." });
+                return RedirectToAction("Index");
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerDatos()
-        {
-            var todos = await _context.Countries.Include(c => c.Regions).ToListAsync();
-            return Json(new { data = todos });
-        }
 
+        private bool CountryExists(string id)
+        {
+            return _context.Countries.Any(e => e.COUNTRY_ID == id);
+        }
     }
 }

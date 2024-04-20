@@ -1,0 +1,33 @@
+﻿@model Proyecto1.Models.Countries
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center">Country Details</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Aumento el tamaño de la columna -->
+            <div class="card card-lg">
+                <!-- Agrego la clase card-lg para aumentar el tamaño de la tarjeta -->
+                <div class="card-body">
+                    <h4 class="card-title">Country Information</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">Country Name:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.COUNTRY_NAME)</dd>
+
+                        <dt class="col-sm-4">Region Name:</dt>
+                        <dd class="col-sm-8">@(Model.Regions != null ? Model.Regions.REGION_NAME : "No Region")</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.COUNTRY_ID">Edit</a>
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

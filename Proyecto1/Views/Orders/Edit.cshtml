@@ -1,0 +1,76 @@
+﻿@model Proyecto1.Models.Orders
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ORDER_ID" />
+            <div class="form-group">
+                <label asp-for="STATUS" class="control-label"></label>
+                <input asp-for="STATUS" class="form-control" value="@Model.STATUS" />
+                <span asp-validation-for="STATUS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ORDER_DATE" class="control-label"></label>
+                <input asp-for="ORDER_DATE" class="form-control" id="orderDate" />
+                <span asp-validation-for="ORDER_DATE" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="SALESMAN_ID">Select a salesman:</label>
+                <select asp-for="SALESMAN_ID" class="form-control" id="SALESMAN_ID" name="SALESMAN_ID">
+                    <option value="">Select a salesman</option>
+                    @foreach (var employee in (SelectList)ViewData["employee_id"])
+                    {
+                        var isSelected = Model.SALESMAN_ID.HasValue && Model.SALESMAN_ID == int.Parse(employee.Value);
+                        <option value="@employee.Value" selected="@isSelected">@employee.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="customer_id">Select a customer:</label>
+                <select asp-for="CUSTOMER_ID" class="form-control" id="customer_id" name="customer_id">
+                    <option value="">Select a customer</option>
+                    @foreach (var customer in (SelectList)ViewData["customer_id"])
+                    {
+                        var isSelected = Model.Customers != null && Model.Customers.CUSTOMER_ID == int.Parse(customer.Value);
+                        <option value="@customer.Value" selected="@isSelected">@customer.Text</option>
+                    }
+                </select>
+            </div>
+            <!-- Campo hidden para el id -->
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            // Obtener el valor actual del campo de fecha
+            var orderDateValue = $('#orderDate').val();
+
+            // Separar la fecha de la hora y los minutos
+            var dateOnly = orderDateValue.split(' ')[0];
+
+            // Establecer el valor del campo de fecha solo con la fecha
+            $('#orderDate').val(dateOnly);
+        });
+    </script>
+}

@@ -154,21 +154,14 @@ namespace Proyecto1.Controllers
             var reg = _context.Contacts.Find(id);
             if (reg == null)
             {
-                return Json(new { success = false, message = "Algo salió mal... inténtalo de nuevo." });
+                return RedirectToAction("Index");
             }
             else
             {
                 _context.Contacts.Remove(reg);
                 _context.SaveChanges();
-                return Json(new { success = true, message = "Contacto eliminado exitosamente." });
+                return RedirectToAction("Index");
             }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ObtenerDatos()
-        {
-            var todos = await _context.Contacts.Include(c => c.Customers).ToListAsync();
-            return Json(new { data = todos });
         }
 
         private bool ContactsExists(int id)

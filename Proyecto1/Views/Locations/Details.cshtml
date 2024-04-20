@@ -1,0 +1,42 @@
+﻿@model Proyecto1.Models.Locations
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center">Location Details</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Aumento el tamaño de la columna -->
+            <div class="card card-lg">
+                <!-- Agrego la clase card-lg para aumentar el tamaño de la tarjeta -->
+                <div class="card-body">
+                    <h4 class="card-title">Location Information</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">Address:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ADDRESS)</dd>
+
+                        <dt class="col-sm-4">Postal Code:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.POSTAL_CODE)</dd>
+
+                        <dt class="col-sm-4">City:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CITY)</dd>
+
+                        <dt class="col-sm-4">State:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.STATE)</dd>
+
+                        <dt class="col-sm-4">Countries Name:</dt>
+                        <dd class="col-sm-8">@(Model.Countries != null ? Model.Countries.COUNTRY_NAME : "No Country")</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.LOCATION_ID">Edit</a>
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
