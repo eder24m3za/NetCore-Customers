@@ -38,7 +38,7 @@ namespace Proyecto1.Controllers
             }
 
             // Obtener la lista de clientes
-            ViewData["location_id"] = new SelectList(_context.Location, "lOCATION_ID", "lOCATION_NAME");
+            ViewData["location_id"] = new SelectList(_context.Locations, "lOCATION_ID", "lOCATION_NAME");
 
             return View(warehouses);
         }
@@ -47,7 +47,7 @@ namespace Proyecto1.Controllers
         // GET: WarehousesController/Create
         public ActionResult Create()
         {
-            ViewData["location_id"] = new SelectList(_context.Location, "lOCATION_ID", "lOCATION_NAME");
+            ViewData["location_id"] = new SelectList(_context.Locations, "lOCATION_ID", "lOCATION_NAME");
             return View();
         }
 
@@ -62,8 +62,8 @@ namespace Proyecto1.Controllers
             }
 
             var warehouse = await _context.Warehouses
-                .Include(c => c.Warehouses)
-                .FirstOrDefaultAsync(m => m.WAREHOUSES_ID == id);
+                .Include(c => c.Locations)
+                .FirstOrDefaultAsync(m => m.WAREHOUSE_ID == id);
 
             if (warehouse == null)
             {
@@ -101,7 +101,7 @@ namespace Proyecto1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("WAREHOUSE_ID,WAREHOUSE_NAME,LOCATION_ID")] Warehouses Warehouses)
         {
-            if (id != Warehouses.CONTACT_ID)
+            if (id != Warehouses.WAREHOUSE_ID)
             {
                 return NotFound();
             }

@@ -40,7 +40,7 @@ namespace Proyecto1.Controllers
                 return NotFound();
             }
 
-            return View(regions);
+            return View(Regions);
         }
 
         // GET: Regions/Create

@@ -7,7 +7,7 @@ namespace Proyecto1.Models
     {
         [Key]
         [JsonPropertyName("region_id")]
-        public int? REGION_ID { get; set; }
+        public int REGION_ID { get; set; }
 
         [JsonPropertyName("region_name")]
         [Required]
